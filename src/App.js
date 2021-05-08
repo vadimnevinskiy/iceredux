@@ -1,4 +1,6 @@
 import './App.css';
+import 'materialize-css'
+
 
 function App() {
   return (
