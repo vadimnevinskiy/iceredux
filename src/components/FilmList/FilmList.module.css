@@ -3,10 +3,13 @@
     overflow-x: hidden;
 }
 .cardImage{
+    min-height: 340px;
+}
+.cardContent{
     min-height: 200px;
 }
 .imgActivator{
-    min-height: 333px;
+    min-height: 300px;
 }
 .filmInfo i{
     vertical-align: -6px;

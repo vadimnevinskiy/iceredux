@@ -38,7 +38,7 @@ const Paginator = ({portionSize, currentPage, items, changePortionFilms, corpPag
     return (
         <div className={classes.paginator}>
             {
-                pages &&
+                pages.length > 1 &&
                 pages
                     .filter(p => p >= left && p <= right)
                     .map(i => {

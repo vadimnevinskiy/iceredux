@@ -85,13 +85,13 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                     portionFilms &&
                     portionFilms.map((film, index) => {
                         return (
-                            <div className="col s12 m6 l3 x3 xl2" key={film.id}>
+                            <div className="col s12 m6 l3 x3 xl2" key={`${index}_${film.id}`}>
                                 <div className="card">
                                     <div
                                         className={classes.cardImage + " card-image waves-effect waves-block waves-light"}>
                                         {
                                             film.image &&
-                                            <img className="activator" src={film.image.medium}/>
+                                            <img className={classes.imgActivator + " activator"} src={film.image.medium}/>
                                         }
                                         {
                                             !film.image &&
@@ -99,7 +99,7 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                         }
 
                                     </div>
-                                    <div className="card-content">
+                                    <div className={classes.cardContent + " card-content"}>
                                         <span
                                             className={classes.title + " card-title activator grey-text text-darken-4"}>{film.name}</span>
                                         <div>index: {index + 1}</div>
@@ -142,7 +142,7 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                                 {
                                                     film.genres.map((genre, index) => {
                                                         return (
-                                                            <span className="chip" key={index}>
+                                                            <span className="chip" key={`${index}_${genre}`}>
                                                                 {genre}
                                                             </span>
                                                         )
