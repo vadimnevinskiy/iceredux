@@ -1,4 +1,4 @@
-import {SET_ACTORS, SET_CURRENT_PAGE, SET_FILM_DETAIL, SET_FILMS, SET_SERVER_PAGE} from '../vars'
+import {SET_ACTORS, SET_CURRENT_PAGE, SET_FILM_DETAIL, SET_FILMS, SET_SEARCHED_FILMS, SET_SERVER_PAGE} from '../vars'
 
 const initialState = {
     films: [],
@@ -14,6 +14,11 @@ const filmReducer = (state = initialState, action) => {
             return {
                 ...state,
                 films: [...state.films, ...action.films]
+            }
+        case SET_SEARCHED_FILMS:
+            return {
+                ...state,
+                films: [...action.films]
             }
         case SET_CURRENT_PAGE:
             return {

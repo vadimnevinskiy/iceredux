@@ -22,7 +22,13 @@ export const filmsAPI = {
             .then((response) => {
                 return response.data
             });
-    }
+    },
+    searchShow(value) {
+        return instance.get(`/search/shows?q=${value}`)
+            .then((response) => {
+                return response.data
+            });
 
+    }
 
 }

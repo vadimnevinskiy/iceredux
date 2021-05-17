@@ -2,16 +2,77 @@ import React, {useEffect, useState} from "react";
 import classes from './FilmList.module.css';
 import {NavLink} from "react-router-dom";
 import Paginator from "../Paginator/Paginator";
+import {Field, Form} from "react-final-form";
+import {useDispatch} from "react-redux";
+import {filmsAPI} from "../../redux/api/api";
+import {setCurrentPage, setSearchedFilms, setServerPage} from "../../redux/actions/films";
+import defaultimg from '../../assets/img/defaultimg.jpg'
 
-const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionFilms, corpPages}) => {
+const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionFilms, corpPages, getFilms}) => {
+    const dispatch = useDispatch();
+    const [searchText, setSearchText] = useState('');
+
+    const onSubmit = values => {
+        setSearchText(values.search)
+    }
+
+    useEffect(() => {
+        if(searchText){
+            filmsAPI.searchShow(searchText)
+                .then(response => {
+                    const result = response.map(item => {
+                        return (
+                            item.show
+                        )
+                    })
+                    dispatch(setServerPage(0))
+                    dispatch(setCurrentPage(1))
+                    dispatch(setSearchedFilms(result))
+
+                })
+        } else {
+            dispatch(setSearchedFilms([]))
+            getFilms()
+        }
+    }, [searchText])
+
+
+    const clearSearch = () => {
+        setSearchText('')
+    }
+
     return (
         <div className={'films'}>
             <div className={classes.header}>
-                <div className="input-field col s6">
-                    <i className="material-icons prefix">search</i>
-                    <input id="icon_prefix" type="text" />
-                    <label htmlFor="icon_prefix">Search</label>
-                </div>
+                <Form
+                    onSubmit={onSubmit}
+                    render={({handleSubmit}) => (
+                        <form onSubmit={handleSubmit}>
+                            <div className={classes.searchForm}>
+                                <div className={classes.inputField + " input-field"}>
+                                    <Field name="search">
+                                        {props => (
+                                            <input id="search" type="text" {...props.input} />
+                                        )}
+                                    </Field>
+                                    <label htmlFor="search">Search</label>
+                                </div>
+                                <button className="btn waves-effect waves-light" type="submit">
+                                    Search
+                                    <i className="material-icons right">search</i>
+                                </button>
+                            </div>
+                        </form>
+                    )}
+                />
+
+                {
+                    searchText &&
+                    <div className="chip">
+                        {searchText}
+                        <i className="close material-icons" onClick={() => clearSearch()}>close</i>
+                    </div>
+                }
             </div>
             <Paginator currentPage={currentPage}
                        items={items}
@@ -32,12 +93,17 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                             film.image &&
                                             <img className="activator" src={film.image.medium}/>
                                         }
+                                        {
+                                            !film.image &&
+                                            <img className={classes.imgActivator + " activator"} src={defaultimg} />
+                                        }
+
                                     </div>
                                     <div className="card-content">
                                         <span
                                             className={classes.title + " card-title activator grey-text text-darken-4"}>{film.name}</span>
-                                        {/*<div>index: {index + 1}</div>*/}
-                                        {/*<div>id: {film.id}</div>*/}
+                                        <div>index: {index + 1}</div>
+                                        <div>id: {film.id}</div>
 
                                         {
                                             film.rating &&

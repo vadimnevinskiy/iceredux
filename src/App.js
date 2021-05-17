@@ -49,7 +49,7 @@ function App() {
 
         //Если текущая страница больше чем количество страниц - 4,
         //тогда загрузим следующую порцию фильмов
-        if(pagesCount && currentPage > pagesCount - corpPages){
+        if(pagesCount > corpPages && currentPage > pagesCount - corpPages){
             dispatch(setServerPage(serverPage + 1))
         }
         const portion = allFilms.slice(startSlice, finishSlice);
@@ -66,6 +66,7 @@ function App() {
                 changePortionFilms={changePortionFilms}
                 corpPages={corpPages}
                 items={allFilms}
+                getFilms={getFilms}
             />} exact />
             <Route path={'/detail/:id'} render={() => <Detail />} />
 
