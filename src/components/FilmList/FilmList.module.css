@@ -12,3 +12,11 @@
 .filmInfo strong{
     vertical-align: -6px;
 }
+
+
+.header{
+    background: #1565c0;
+    color: #ffffff;
+    padding: 18px 20px 20px 20px;
+    margin-bottom: 20px;
+}

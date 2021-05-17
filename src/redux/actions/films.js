@@ -1,4 +1,4 @@
-import {SET_CURRENT_PAGE, SET_FILM_DETAIL, SET_FILMS, SET_SERVER_PAGE} from "../vars";
+import {SET_ACTORS, SET_CURRENT_PAGE, SET_FILM_DETAIL, SET_FILMS, SET_SERVER_PAGE} from "../vars";
 
 export const setFilms = (films) => {
     return {
@@ -25,5 +25,12 @@ export const setFilmDetail = (detail) => {
     return {
         type: SET_FILM_DETAIL,
         detail: detail
+    }
+}
+
+export const setActors = (actors) => {
+    return {
+        type: SET_ACTORS,
+        actors: actors
     }
 }

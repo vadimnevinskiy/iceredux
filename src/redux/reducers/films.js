@@ -1,10 +1,11 @@
-import {SET_CURRENT_PAGE, SET_FILM_DETAIL, SET_FILMS, SET_SERVER_PAGE} from '../vars'
+import {SET_ACTORS, SET_CURRENT_PAGE, SET_FILM_DETAIL, SET_FILMS, SET_SERVER_PAGE} from '../vars'
 
 const initialState = {
     films: [],
     currentPage: 1,
     serverPage: 0,
-    filmDetail: null
+    filmDetail: null,
+    actors: []
 }
 
 const filmReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ const filmReducer = (state = initialState, action) => {
             return {
                 ...state,
                 filmDetail: action.detail
+            }
+        case SET_ACTORS:
+            return {
+                ...state,
+                actors: action.actors
             }
         default:
             return state

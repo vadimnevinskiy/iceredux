@@ -59,17 +59,6 @@ function App() {
 
     return (
         <div className="App">
-            <div className={'container'}>
-                <div className={'header'}>
-                    Поиск
-                </div>
-            </div>
-            {/*<Paginator currentPage={currentPage}*/}
-            {/*           items={allFilms}*/}
-            {/*           portionSize={portionSize}*/}
-            {/*           changePortionFilms={changePortionFilms}*/}
-            {/*           corpPages={corpPages}*/}
-            {/*/>*/}
             <Route path={'/'} render={() => <FilmList
                 portionFilms={portionFilms}
                 currentPage={currentPage}

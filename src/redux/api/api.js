@@ -16,5 +16,13 @@ export const filmsAPI = {
             .then((response) => {
                 return response.data
             });
+    },
+    getActors(id) {
+        return instance.get(`/shows/${id}/cast`)
+            .then((response) => {
+                return response.data
+            });
     }
+
+
 }
