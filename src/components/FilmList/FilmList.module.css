@@ -1,0 +1,14 @@
+.title{
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+.cardImage{
+    min-height: 200px;
+}
+
+.filmInfo i{
+    vertical-align: -6px;
+}
+.filmInfo strong{
+    vertical-align: -6px;
+}

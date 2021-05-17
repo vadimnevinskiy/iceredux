@@ -1,0 +1,18 @@
+.paginator{
+    text-align: center;
+    padding: 20px 0px;
+}
+.pageItem{
+    display: inline-block;
+    background: #1565c0;
+    width: 50px;
+    padding: 10px 0px;
+    text-align: center;
+    color: white;
+    margin: 0px 10px 0px 0px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.active{
+    background: #ad1457;
+}
