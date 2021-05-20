@@ -23,6 +23,12 @@ export const filmsAPI = {
                 return response.data
             });
     },
+    getActorDetail(id) {
+        return instance.get(`/people/${id}`)
+            .then((response) => {
+                return response.data
+            });
+    },
     searchShow(value) {
         return instance.get(`/search/shows?q=${value}`)
             .then((response) => {

@@ -1,16 +1,17 @@
 import React, {useEffect} from "react";
 import classes from './Detail.module.css';
-import {NavLink, useLocation} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {filmsAPI} from "../../redux/api/api";
 import {setActors, setFilmDetail} from "../../redux/actions/films";
 import {useDispatch, useSelector} from "react-redux";
+import Header from "../Header/Header";
+import Preloader from "../Preloader/Preloader";
 
 
 const Detail = () => {
     const dispatch = useDispatch();
-    const location = useLocation(); //location detail
-    const filmId = location.pathname.split('/')[2] // Parse string and get filmId
-
+    const history = useHistory(); //history detail
+    const filmId = history.location.pathname.split('/')[2] // Parse string and get filmId
     const filmDetail = useSelector(({filmList}) => filmList.filmDetail);// Get all films from store
     const actors = useSelector(({filmList}) => filmList.actors);// Get all films from store
 
@@ -31,13 +32,7 @@ const Detail = () => {
     if (filmDetail) {
         return (
             <>
-                <div className={classes.header}>
-                    <NavLink to={'/'}>
-                        Go back
-                    </NavLink>
-                    &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-                    <span className={classes.headerName}>{filmDetail.name}</span>
-                </div>
+                <Header backLink={'/'} name={filmDetail.name} />
                 <div className="row">
                     <div className="col s4 m4 l4 xl3">
                         <div className={classes.image}>
@@ -64,15 +59,27 @@ const Detail = () => {
                                     <div className="card">
                                         <div className="card-image">
                                             {
-                                                actor.person.image.medium &&
-                                                <img src={actor.person.image.medium}/>
+                                                actor.person.image &&
+                                                <img src={actor.person.image.medium} alt={actor.person.name} />
                                             }
-                                            <span className="card-title">{actor.person.name}</span>
+                                            <span className="card-title">{actor.person.id} = {actor.person.name}</span>
                                         </div>
                                         <div className={classes.cardContent + " card-content"}>
                                             <div>
                                                 <strong>{actor.character.name}</strong>
                                             </div>
+                                            <div>
+                                                <strong>{actor.person.birthday}</strong>
+                                                {
+                                                    actor.person.deathday &&
+                                                    <>
+                                                        - <strong>{actor.person.deathday}</strong>
+                                                    </>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="card-action">
+                                            <NavLink to={`/actor/${actor.person.id}?filmId=${filmDetail.id}`}>Detail</NavLink>
                                         </div>
                                     </div>
                                 </div>
@@ -83,13 +90,12 @@ const Detail = () => {
                 <NavLink to={'/'} className="btn-floating btn-large blue darken-3 fixed-action-btn">
                     <i className="large material-icons">arrow_back</i>
                 </NavLink>
-
             </>
         )
     }
 
     return (
-        <div>LOADING</div>
+        <Preloader />
     )
 
 

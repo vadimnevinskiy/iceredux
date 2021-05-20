@@ -2,78 +2,44 @@ import React, {useEffect, useState} from "react";
 import classes from './FilmList.module.css';
 import {NavLink} from "react-router-dom";
 import Paginator from "../Paginator/Paginator";
-import {Field, Form} from "react-final-form";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {filmsAPI} from "../../redux/api/api";
-import {setCurrentPage, setSearchedFilms, setServerPage} from "../../redux/actions/films";
-import defaultimg from '../../assets/img/defaultimg.jpg'
+import {setCurrentPage, setSearchedFilms, setSearchText, setServerPage} from "../../redux/actions/films";
+import defaultImg from '../../assets/img/defaultimg.jpg'
+import Search from "../Search/Search";
+import Preloader from "../Preloader/Preloader";
 
 const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionFilms, corpPages, getFilms}) => {
     const dispatch = useDispatch();
-    const [searchText, setSearchText] = useState('');
+    // const [searchText, setSearchText] = useState('');
+    const searchText = useSelector(({filmList}) => filmList.searchText);// Get currentPage from store
 
-    const onSubmit = values => {
-        setSearchText(values.search)
-    }
-
-    useEffect(() => {
-        if(searchText){
-            filmsAPI.searchShow(searchText)
-                .then(response => {
-                    const result = response.map(item => {
-                        return (
-                            item.show
-                        )
-                    })
-                    dispatch(setServerPage(0))
-                    dispatch(setCurrentPage(1))
-                    dispatch(setSearchedFilms(result))
-
+    const search = (values) => {
+        dispatch(setSearchText(values.search));
+        filmsAPI.searchShow(values.search)
+            .then(response => {
+                const result = response.map(item => {
+                    return (
+                        item.show
+                    )
                 })
-        } else {
-            dispatch(setSearchedFilms([]))
-            getFilms()
-        }
-    }, [searchText])
+                // dispatch(setServerPage(0))
+                dispatch(setCurrentPage(1))
+                dispatch(setSearchedFilms(result))
+            })
+    }
 
 
     const clearSearch = () => {
-        setSearchText('')
+        dispatch(setServerPage(0))
+        dispatch(setCurrentPage(1))
+        dispatch(setSearchText(''));
+        dispatch(setSearchedFilms([]));
     }
 
     return (
-        <div className={'films'}>
-            <div className={classes.header}>
-                <Form
-                    onSubmit={onSubmit}
-                    render={({handleSubmit}) => (
-                        <form onSubmit={handleSubmit}>
-                            <div className={classes.searchForm}>
-                                <div className={classes.inputField + " input-field"}>
-                                    <Field name="search">
-                                        {props => (
-                                            <input id="search" type="text" {...props.input} />
-                                        )}
-                                    </Field>
-                                    <label htmlFor="search">Search</label>
-                                </div>
-                                <button className="btn waves-effect waves-light" type="submit">
-                                    Search
-                                    <i className="material-icons right">search</i>
-                                </button>
-                            </div>
-                        </form>
-                    )}
-                />
-
-                {
-                    searchText &&
-                    <div className="chip">
-                        {searchText}
-                        <i className="close material-icons" onClick={() => clearSearch()}>close</i>
-                    </div>
-                }
-            </div>
+        <div className={'films'} id='top'>
+            <Search clearSearch={clearSearch} search={search} searchText={searchText} />
             <Paginator currentPage={currentPage}
                        items={items}
                        portionSize={portionSize}
@@ -85,23 +51,24 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                     portionFilms &&
                     portionFilms.map((film, index) => {
                         return (
-                            <div className="col s12 m6 l3 x3 xl2" key={`${index}_${film.id}`}>
-                                <div className="card">
+                            <div className="col s12 m4 l3 x3 xl2" key={`${index}_${film.id}`}>
+                                <div className="card hoverable">
                                     <div
                                         className={classes.cardImage + " card-image waves-effect waves-block waves-light"}>
                                         {
                                             film.image &&
-                                            <img className={classes.imgActivator + " activator"} src={film.image.medium}/>
+                                            <img className={classes.imgActivator + " activator"} src={film.image.medium} alt={film.name} />
                                         }
                                         {
                                             !film.image &&
-                                            <img className={classes.imgActivator + " activator"} src={defaultimg} />
+                                            <img className={classes.imgActivator + " activator"} src={defaultImg} alt={film.name} />
                                         }
-
                                     </div>
                                     <div className={classes.cardContent + " card-content"}>
                                         <span
-                                            className={classes.title + " card-title activator grey-text text-darken-4"}>{film.name}</span>
+                                            className={classes.title + " card-title activator grey-text text-darken-4"}>
+                                            {film.name}
+                                        </span>
                                         <div>index: {index + 1}</div>
                                         <div>id: {film.id}</div>
 
@@ -125,11 +92,9 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                                 <strong>{film.premiered}</strong>
                                             </div>
                                         }
-                                        <p>
-                                            <NavLink to={`/detail/${film.id}`}>
-                                                More
-                                            </NavLink>
-                                        </p>
+                                    </div>
+                                    <div className="card-action">
+                                        <NavLink to={`/detail/${film.id}`}>Detail</NavLink>
                                     </div>
                                     <div className="card-reveal">
                                         <span className="card-title grey-text text-darken-4">
@@ -163,9 +128,11 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                 }
                 {
                     !portionFilms &&
-                    <div>LOADING....</div>
+                    <Preloader />
                 }
-
+                <a href='#top' className="btn-floating btn-large blue darken-3 fixed-action-btn">
+                    <i className="large material-icons">vertical_align_top</i>
+                </a>
             </div>
 
         </div>

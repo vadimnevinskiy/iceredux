@@ -1,7 +1,7 @@
 import classes from "./Paginator.module.css";
 import React, {useEffect, useState} from "react";
 import {setCurrentPage} from "../../redux/actions/films";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 
 const Paginator = ({portionSize, currentPage, items, changePortionFilms, corpPages}) => {
