@@ -39,12 +39,18 @@ const Actor = () => {
                         </div>
                     </div>
                     <div className="col s8 m8 l8 xl9">
-                        <h3>{actor.name}</h3>
+                        {
+                            actor.name &&
+                            <h3>{actor.name}</h3>
+                        }
                         <div>{actor.gender}</div>
                         <div className={classes.infoBlock}>
-                            <div className={classes.infoItem}>
-                                {actor.country.name}
-                            </div>
+                            {
+                                actor.country &&
+                                <div className={classes.infoItem}>
+                                    {actor.country.name}
+                                </div>
+                            }
                             <div className={classes.infoItem}>
                                 <span>{actor.birthday}</span>
                                 {
