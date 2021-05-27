@@ -6,6 +6,7 @@ import {setActors, setFilmDetail} from "../../redux/actions/films";
 import {useDispatch, useSelector} from "react-redux";
 import Header from "../Header/Header";
 import Preloader from "../Preloader/Preloader";
+import ActorList from "../ActorList/ActorList";
 
 
 const Detail = () => {
@@ -13,7 +14,7 @@ const Detail = () => {
     const history = useHistory(); //history detail
     const filmId = history.location.pathname.split('/')[2] // Parse string and get filmId
     const filmDetail = useSelector(({filmList}) => filmList.filmDetail);// Get all films from store
-    const actors = useSelector(({filmList}) => filmList.actors);// Get all films from store
+
 
 
     // console.log(filmId)
@@ -50,43 +51,7 @@ const Detail = () => {
                         </div>
                     </div>
                 </div>
-                <div className="row">
-                    {
-                        actors &&
-                        actors.map((actor, index) => {
-                            return (
-                                <div className="col s6 m3 l2 xl2" key={index}>
-                                    <div className="card">
-                                        <div className="card-image">
-                                            {
-                                                actor.person.image &&
-                                                <img src={actor.person.image.medium} alt={actor.person.name} />
-                                            }
-                                            <span className="card-title">{actor.person.id} = {actor.person.name}</span>
-                                        </div>
-                                        <div className={classes.cardContent + " card-content"}>
-                                            <div>
-                                                <strong>{actor.character.name}</strong>
-                                            </div>
-                                            <div>
-                                                <strong>{actor.person.birthday}</strong>
-                                                {
-                                                    actor.person.deathday &&
-                                                    <>
-                                                        - <strong>{actor.person.deathday}</strong>
-                                                    </>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="card-action">
-                                            <NavLink to={`/actor/${actor.person.id}?filmId=${filmDetail.id}`}>Detail</NavLink>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+                <ActorList filmId={filmId} />
                 <NavLink to={'/'} className="btn-floating btn-large blue darken-3 fixed-action-btn">
                     <i className="large material-icons">arrow_back</i>
                 </NavLink>
