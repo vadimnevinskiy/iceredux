@@ -65,11 +65,11 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                             className={classes.title + " card-title activator grey-text text-darken-4"}>
                                             {film.name}
                                         </span>
-                                        <div>index: {index + 1}</div>
-                                        <div>id: {film.id}</div>
+                                        {/*<div>index: {index + 1}</div>*/}
+                                        {/*<div>id: {film.id}</div>*/}
 
                                         {
-                                            film.rating &&
+                                            film.rating?.average &&
                                             <div className={classes.filmInfo}>
                                                 <i className="material-icons">star</i>
                                                 &nbsp; {film.rating.average}
