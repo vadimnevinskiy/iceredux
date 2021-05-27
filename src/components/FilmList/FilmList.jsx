@@ -11,7 +11,6 @@ import Preloader from "../Preloader/Preloader";
 
 const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionFilms, corpPages, getFilms}) => {
     const dispatch = useDispatch();
-    // const [searchText, setSearchText] = useState('');
     const searchText = useSelector(({filmList}) => filmList.searchText);// Get currentPage from store
 
     const search = (values) => {

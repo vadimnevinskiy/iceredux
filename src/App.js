@@ -19,13 +19,15 @@ function App() {
     const currentPage = useSelector(({filmList}) => filmList.currentPage);// Get currentPage from store
     const serverPage = useSelector(({filmList}) => filmList.serverPage);// Get currentPage from store
     const allFilms = useSelector(({filmList}) => filmList.films);// Get all films from store
-
+    const searchText = useSelector(({filmList}) => filmList.searchText);// Get currentPage from store
 
     //Get films from server
     useEffect(() => {
         console.log('Первый вход на страницу APP - serverPage = ' + serverPage)
-        getFilms()
-    }, [serverPage])
+        if(!searchText){
+            getFilms()
+        }
+    }, [serverPage, searchText])
 
     //Change portion of films
     useEffect(() => {
@@ -57,6 +59,7 @@ function App() {
             dispatch(setServerPage(serverPage + 1))
         }else {
             console.log('Пропустили загрузку новой порции!!!!!!')
+            // dispatch(setServerPage(serverPage))
         }
         const portion = allFilms.slice(startSlice, finishSlice);
         setPortionFilms(portion)
