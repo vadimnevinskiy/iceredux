@@ -38,7 +38,7 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
 
     return (
         <div className={'films'} id='top'>
-            <Search clearSearch={clearSearch} search={search} searchText={searchText} />
+            <Search clearSearch={clearSearch} search={search} searchText={searchText}/>
             <Paginator currentPage={currentPage}
                        items={items}
                        portionSize={portionSize}
@@ -55,12 +55,9 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                     <div
                                         className={classes.cardImage + " card-image waves-effect waves-block waves-light"}>
                                         {
-                                            film.image &&
-                                            <img className={classes.imgActivator + " activator"} src={film.image.medium} alt={film.name} />
-                                        }
-                                        {
-                                            !film.image &&
-                                            <img className={classes.imgActivator + " activator"} src={defaultImg} alt={film.name} />
+                                            film.image
+                                                ? <img className={classes.imgActivator + " activator"} src={film.image.medium} alt={film.name}/>
+                                                : <img className={classes.imgActivator + " activator"} src={defaultImg} alt={film.name}/>
                                         }
                                     </div>
                                     <div className={classes.cardContent + " card-content"}>
@@ -114,8 +111,7 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                                                 }
                                             </div>
                                         }
-                                        <div className="content"
-                                             dangerouslySetInnerHTML={{__html: film.summary}}></div>
+                                        <div className="content" dangerouslySetInnerHTML={{__html: film.summary}}></div>
                                         <NavLink to={`/detail/${film.id}`}>
                                             More
                                         </NavLink>
@@ -127,7 +123,7 @@ const FilmList = ({portionFilms, currentPage, items, portionSize, changePortionF
                 }
                 {
                     !portionFilms &&
-                    <Preloader />
+                    <Preloader/>
                 }
                 <a href='#top' className="btn-floating btn-large blue darken-3 fixed-action-btn">
                     <i className="large material-icons">vertical_align_top</i>

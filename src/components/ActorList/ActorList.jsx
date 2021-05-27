@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./ActorList.module.css";
 import {NavLink} from "react-router-dom";
 import {useSelector} from "react-redux";
+import defaultImg from "../../assets/img/defaultimg.jpg";
 
 
 const ActorList = ({filmId}) => {
@@ -18,8 +19,9 @@ const ActorList = ({filmId}) => {
                             <div className="card">
                                 <div className="card-image">
                                     {
-                                        actor.person.image &&
-                                        <img src={actor.person.image.medium} alt={actor.person.name} />
+                                        actor.person.image
+                                        ? <img src={actor.person.image.medium} alt={actor.person.name} />
+                                        : <img className={classes.imgActivator + " activator"} src={defaultImg} alt={actor.person.name}/>
                                     }
                                     <span className="card-title">{actor.person.name}</span>
                                 </div>
